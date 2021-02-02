@@ -1,9 +1,14 @@
 // flip card: https://www.w3schools.com/howto/howto_css_flip_card.asp
 var dog_arr = new Array();
-var dog_breeds = new Array();
+var dog_breeds_arr = new Array();
+var cur_open_cards_arr = new Array();
+
+var cur_open_card_counter = 0;
+var cur_seletcs = 0;
+
 getDogs()
 async function getDogs() {
-    let req_dog_amount = 6;    //requested different dogs
+    let req_dog_amount = 2;    //requested different dogs
     for (let i = 0; i < req_dog_amount; i++) {
         try {
             let response = await fetch("https://api.thedogapi.com/v1/images/search")
@@ -14,13 +19,13 @@ async function getDogs() {
             console.log("error", error);
         }
     }
-    // printDogAll();
-    // duplicateDogCards()
-    // shuffleDogCards();
-    // printDogCards();
+    printDogAll();
+    duplicateDogCards()
+    shuffleDogCards();
+    printDogCards();
 }
 
-getBreeds()
+//getBreeds()
 async function getBreeds() {
     try {
         let response = await fetch("https://api.thedogapi.com/v1/breeds")
@@ -33,13 +38,13 @@ async function getBreeds() {
 
 }
 
-function printBreeds(breeds){
+function printBreeds(breeds) {
     let onlyBreeds = new Array();
     for (let i = 0; i < breeds.length; i++) {
         onlyBreeds.push(breeds[i].name);
     }
-    dog_breeds = onlyBreeds;
-    console.log(dog_breeds);
+    dog_breeds_arr = onlyBreeds;
+    console.log(dog_breeds_arr);
 }
 
 //Check if dog is already within the dog array and allow only new dog data to the array
@@ -86,10 +91,14 @@ function shuffleDogCards() {
 
 function printDogCards() {
     let dog_cards = document.getElementById("dog_cards").innerHTML;
+    let card_id = 1; 
     for (let dog of dog_arr) {
+        console.log("DogId: "+ dog[0].id);
+        console.log("Url: "+ dog[0].url);
+
         dog_cards = dog_cards +
-            `<div class="flip-card m-2" style="width:150px;height:150px;">
-            <div class="flip-card-inner id-${dog[0].id}">
+            `            <div class="flip-card m-2" style="width:150px;height:150px;">
+            <div class="flip-card-inner ${dog[0].id}" id="${card_id}" onclick="card_clicked(this)">
                 <div class="front">
                     <img src="doggo.jpg" style="width:150px;height:150px;">
                 </div>
@@ -98,19 +107,33 @@ function printDogCards() {
                 </div>
             </div>
         </div>`
+        card_id++;
     }
     document.getElementById("dog_cards").innerHTML = dog_cards;
 }
 
-var element = document.getElementsByClassName("flip-card");
 
-function checkCard(){
-   // alert("Card clicked");
-    console.log(element);
-    element.style = 'transform: rotateY(-180deg);';
+function card_clicked(element) {
+    //if(current_open )
+
+    console.log(element.id);
+    console.log(element.classList[1]);
+    console.log("Open");
+    document.getElementById(element.id).classList.remove('close-card');
+    document.getElementById(element.id).classList.add('open-card');
+
 }
 
-for (var i = 0; i < element.length; i++) {
-    element[i].addEventListener('click', checkCard, false);
+function openCard(element) {
+    console.log("Open Card: "+element.id);
+    document.getElementById(element.id).classList.remove('close-card');
+    document.getElementById(element.id).classList.add('open-card');
+
+}
+
+function closeRotate(element) {
+    console.log("Close Element: "+ element.id);
+    document.getElementById(element.id).classList.remove('open-card');
+    document.getElementById(element.id).classList.add('close-card');
 }
 
