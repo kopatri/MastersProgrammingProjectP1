@@ -3,10 +3,9 @@ var dog_arr = new Array();
 var dog_breeds_arr = new Array();
 var cur_open_cards_arr = new Array();
 
-var cur_open_card_counter = 0;
-var cur_seletcs = 0;
+var tried_pairs = 0;
 
-getDogs()
+//getDogs()
 async function getDogs() {
     let req_dog_amount = 2;    //requested different dogs
     for (let i = 0; i < req_dog_amount; i++) {
@@ -91,10 +90,10 @@ function shuffleDogCards() {
 
 function printDogCards() {
     let dog_cards = document.getElementById("dog_cards").innerHTML;
-    let card_id = 1; 
+    let card_id = 1;
     for (let dog of dog_arr) {
-        console.log("DogId: "+ dog[0].id);
-        console.log("Url: "+ dog[0].url);
+        console.log("DogId: " + dog[0].id);
+        console.log("Url: " + dog[0].url);
 
         dog_cards = dog_cards +
             `            <div class="flip-card m-2" style="width:150px;height:150px;">
@@ -114,26 +113,61 @@ function printDogCards() {
 
 
 function card_clicked(element) {
-    //if(current_open )
+    //Matched Card are not processed further (Ignoring of matched cards)
+    if (element.classList.contains("matched-card")) {
+        console.log("Check 1 - Already Matched card: " + element.classList.contains("matched-card")); // does not print to the console? 
+        return;
+    }
+    //push card to the array
+    if (cur_open_cards_arr.length == 0) {
+        cur_open_cards_arr.push(element);
+        openCard(element);
+    } else if (cur_open_cards_arr.length == 1) {
+        //Already selected card also does not count and will be ignored
+        if (element.id == cur_open_cards_arr[0].id) {
+            console.log("Check 2- Already selected card: " + element.id == cur_open_cards_arr[0].id);
+            return;
+        }
+        cur_open_cards_arr.push(element);
+        openCard(element);
+        setTimeout(checkMatch, 1000);
+    }
+}
 
-    console.log(element.id);
-    console.log(element.classList[1]);
-    console.log("Open");
-    document.getElementById(element.id).classList.remove('close-card');
-    document.getElementById(element.id).classList.add('open-card');
 
+function checkMatch() {
+
+    if (cur_open_cards_arr[0].classList[1] == cur_open_cards_arr[1].classList[1]) {
+        console.log("Match");
+        withdrawCardMatch(cur_open_cards_arr[0]);
+        withdrawCardMatch(cur_open_cards_arr[1]);
+    }
+    else {
+        closeCard(cur_open_cards_arr[0]);
+        closeCard(cur_open_cards_arr[1]);
+    }
+    tried_pairs++;
+    cur_open_cards_arr = []; //cu_open_arr has is not referenced anywhere, deleting content like this is okay
+    document.getElementById("tried_pairs").innerHTML = tried_pairs;
 }
 
 function openCard(element) {
-    console.log("Open Card: "+element.id);
+    //Do not allow to open the same card twice
+    console.log("Open Card: " + element.id);
+    console.log("Open Cardlgiz: " + cur_open_cards_arr[0].id);
     document.getElementById(element.id).classList.remove('close-card');
     document.getElementById(element.id).classList.add('open-card');
 
 }
 
-function closeRotate(element) {
-    console.log("Close Element: "+ element.id);
+function closeCard(element) {
+    console.log("Close Element: " + element.id);
     document.getElementById(element.id).classList.remove('open-card');
     document.getElementById(element.id).classList.add('close-card');
+}
+
+function withdrawCardMatch(element) {
+    console.log("Close Element because of Match: " + element.id);
+    document.getElementById(element.id).classList.add('matched-card');
 }
 

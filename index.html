@@ -9,7 +9,7 @@
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
     <style>
-        .flip-card{
+        .flip-card {
             perspective: 1000px;
         }
 
@@ -46,24 +46,25 @@
             /*notwendig */
         }
 
-        @keyframes flipOpen{
-            from{
+        @keyframes flipOpen {
+            from {
                 transform: rotateY(0deg);
             }
-            to{
+
+            to {
                 transform: rotateY(-180deg)
             }
         }
 
-        @keyframes flipClose{
-            from{
+        @keyframes flipClose {
+            from {
                 transform: rotateY(-180deg);
             }
-            to{
+
+            to {
                 transform: rotateY(0deg)
             }
         }
-
     </style>
 
 
@@ -87,9 +88,10 @@
 
 <body class="bg-light">
     <!-- container -->
+    <p id="tried_pairs">0</p>
     <main class="container-fluid col-md-12">
         <div class="row" id="dog_cards">
-<!--
+            <!--
             <div class="flip-card m-2" style="width:150px;height:150px;">
                 <div class="flip-card-inner" id="test" onclick="openRotate(this)">
                     <div class="front">
@@ -103,7 +105,66 @@
         </div>
     -->
 
-        <script src="js/javascript-p1.js"></script>
+
+            <!--
+            <div class="flip-card m-2" style="width:150px;height:150px;">
+                <div class="flip-card-inner" id="test" onclick="openRotate(this)">
+                    <div class="front">
+                        <img src="doggo.jpg" style="width:150px;height:150px;">
+                    </div>
+                    <div class="back">
+                        <img src="https://cdn2.thedogapi.com/images/pAMLu0IxZ.jpg" style="width:150px;height:150px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    -->
+
+            <script src="js/javascript-p1.js"></script>
+
+
+            <div class="flip-card m-2" style="width:150px;height:150px;">
+                <div class="flip-card-inner y2G5sMFrS" id="1" onclick="card_clicked(this)">
+                    <div class="front">
+                        <img src="doggo.jpg" style="width:150px;height:150px;">
+                    </div>
+                    <div class="back">
+                        <img src="https://cdn2.thedogapi.com/images/y2G5sMFrS.jpg" style="width:150px;height:150px;">
+                    </div>
+                </div>
+            </div>
+            <div class="flip-card m-2" style="width:150px;height:150px;">
+                <div class="flip-card-inner q3wSiFZ7m close-card" id="2" onclick="card_clicked(this)">
+                    <div class="front">
+                        <img src="doggo.jpg" style="width:150px;height:150px;">
+                    </div>
+                    <div class="back">
+                        <img src="https://cdn2.thedogapi.com/images/q3wSiFZ7m.jpg" style="width:150px;height:150px;">
+                    </div>
+                </div>
+            </div>
+            <div class="flip-card m-2" style="width:150px;height:150px;">
+                <div class="flip-card-inner y2G5sMFrS close-card" id="3" onclick="card_clicked(this)">
+                    <div class="front">
+                        <img src="doggo.jpg" style="width:150px;height:150px;">
+                    </div>
+                    <div class="back">
+                        <img src="https://cdn2.thedogapi.com/images/y2G5sMFrS.jpg" style="width:150px;height:150px;">
+                    </div>
+                </div>
+            </div>
+            <div class="flip-card m-2" style="width:150px;height:150px;">
+                <div class="flip-card-inner q3wSiFZ7m close-card" id="4" onclick="card_clicked(this)">
+                    <div class="front">
+                        <img src="doggo.jpg" style="width:150px;height:150px;">
+                    </div>
+                    <div class="back">
+                        <img src="https://cdn2.thedogapi.com/images/q3wSiFZ7m.jpg" style="width:150px;height:150px;">
+                    </div>
+                </div>
+            </div>
+
+            <script src="js/javascript-p1.js"></script>
 </body>
 
 </html>
