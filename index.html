@@ -7,7 +7,49 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+    <style>
+        /* This container is needed to position the front and back side */
+        .flip-card-inner {
+            transition: transform 1s;
+            transform-style: preserve-3d;
+            /*notwendig */
+        }
+
+        /* Do an horizontal flip when you move the mouse over the flip box container */
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(-180deg);
+        }
+
+        /* Position the front and back side */
+        .front,
+        .back {
+            position: absolute;
+            backface-visibility: hidden;
+        }
+
+        /* Style the back side */
+        .back {
+            transform: rotateY(-180deg);
+            /*notwendig */
+        }
+
+        .flip {
+            animation-name: flips;
+             animation-duration: 4s;
+        }
+
+        @keyframes flips {
+            from {
+                transform: rotateY(0deg);
+            }
+
+            to {
+                transform: rotateY(-180deg);
+            }
+        }
     </style>
+
 
     <title>CS5003 Practical 1</title>
 
@@ -32,30 +74,23 @@
     <main class="container-fluid col-md-12">
         <div class="row" id="dog_cards">
 
-            <!--
-            <div id="1" order="1">
-                <div class="flip-card m-2">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <img src="https://cdn2.thedogapi.com/images/pAMLu0IxZ.jpg"
-                                style="width:150px;height:150px;">
-                        </div>
-                        <div class="flip-card-back">
-                        </div>
+            <div class="flip-card m-2" style="width:150px;height:150px;">
+                <div class="flip-card-inner">
+                    <div class="front">
+                        <img src="https://cdn2.thedogapi.com/images/pAMLu0IxZ.jpg" style="width:150px;height:150px;">
+                    </div>
+                    <div class="back">
+                        <img src="doggo.jpg" style="width:150px;height:150px;">
                     </div>
                 </div>
             </div>
-        -->
 
 
         </div>
 
 
 
-        </div>
-    </main>
-
-    <script src="js/javascript-p1.js"></script>
+        <script src="js/javascript-p1.js"></script>
 
 </body>
 

@@ -14,10 +14,10 @@ async function getDogs() {
             console.log("error", error);
         }
     }
-    printDogAll();
-    duplicateDogCards()
-    shuffleDogCards();
-    printDogCards();
+    // printDogAll();
+    // duplicateDogCards()
+    // shuffleDogCards();
+    // printDogCards();
 }
 
 getBreeds()
@@ -88,19 +88,29 @@ function printDogCards() {
     let dog_cards = document.getElementById("dog_cards").innerHTML;
     for (let dog of dog_arr) {
         dog_cards = dog_cards +
-            `<div id="${dog[0].id}" >
-        <div class="flip-card m-2">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
+            `<div class="flip-card m-2" style="width:150px;height:150px;">
+            <div class="flip-card-inner id-${dog[0].id}">
+                <div class="front">
+                    <img src="doggo.jpg" style="width:150px;height:150px;">
+                </div>
+                <div class="back">
                     <img src="${dog[0].url}" style="width:150px;height:150px;">
                 </div>
-                <div class="flip-card-back">
-                <!--<img src="background.jpg" style="width:150px;height:150px;">-->
-                </div>
             </div>
-        </div>
-    </div>`
+        </div>`
     }
     document.getElementById("dog_cards").innerHTML = dog_cards;
+}
+
+var element = document.getElementsByClassName("flip-card");
+
+function checkCard(){
+   // alert("Card clicked");
+    console.log(element);
+    element.style = 'transform: rotateY(-180deg);';
+}
+
+for (var i = 0; i < element.length; i++) {
+    element[i].addEventListener('click', checkCard, false);
 }
 
