@@ -1,13 +1,19 @@
 // flip card: https://www.w3schools.com/howto/howto_css_flip_card.asp
-var dog_arr = new Array();
+var dog_arr = new Array(); //Uncaught SyntaxError: redeclaration of let
 var dog_breeds_arr = new Array();
 var cur_open_cards_arr = new Array();
 
+var playset_pairs = 0;
 var tried_pairs = 0;
+var correct_selected_pairs = 0;
 
-//getDogs()
-async function getDogs() {
-    let req_dog_amount = 2;    //requested different dogs
+//user input related data and functions
+var highscore = { easy: "No game played!", normal: "No game played!", hard: "No game played!" };
+
+//Get random dogs
+async function getDogs(req_dog_amount) {
+    //requested different dogs
+    console.log("Requested dog amount: " + req_dog_amount);
     for (let i = 0; i < req_dog_amount; i++) {
         try {
             let response = await fetch("https://api.thedogapi.com/v1/images/search")
@@ -24,7 +30,7 @@ async function getDogs() {
     printDogCards();
 }
 
-//getBreeds()
+getBreeds()
 async function getBreeds() {
     try {
         let response = await fetch("https://api.thedogapi.com/v1/breeds")
@@ -37,28 +43,52 @@ async function getBreeds() {
 
 }
 
-function printBreeds(breeds) {
-    let onlyBreeds = new Array();
-    for (let i = 0; i < breeds.length; i++) {
-        onlyBreeds.push(breeds[i].name);
-    }
-    dog_breeds_arr = onlyBreeds;
-    console.log(dog_breeds_arr);
-}
 
-//Check if dog is already within the dog array and allow only new dog data to the array
-function pushNewDog(new_dog) {
-    if (dog_arr.length == 0) {
-        dog_arr.push(dog);
-    } else {
-        for (let i = 0; i < dog_arr.length; i++) {
-            if (JSON.stringify(new_dog) === JSON.stringify(dog_arr[i])) {
-                console.log("Dog already in Array!");
-            } else {
-                console.log("New dog for Array!");
+function printBreeds(breeds) {
+    for (let i = 0; i < breeds.length; i++) {
+        dog_breeds_arr.push(breeds[i].name);
+    }
+    for (let breed of dog_breeds_arr) {
+        console.log(breed);
+    }
+
+
+
+    //Get number of carousel items (10 checkboxes)
+    let carousel_items = (dog_breeds_arr.length / 10);
+    if (carousel_items % 1 > 0) {
+        carousel_items = carousel_items - (carousel_items % 1);
+        carousel_items++;
+    }
+
+    let breedsHTML = "";
+    let breed_countdown = dog_breeds_arr.length;
+
+    console.log("Carousel_items: " + carousel_items); // 18 carousel items for 172 breeds -> 172/ 10 -> 17.2 - 17.2 - 17.2 % 1 -> 17 -> 17 + 1 = 18
+    for (let k = 0; k < carousel_items; k++) {
+        breedsHTML += `<div class="carousel-item" id="carousel-item-${k}">`;
+        breedsHTML += `<div class="row">`;
+        for (let breed of dog_breeds_arr) {
+            console.log(breed);
+            breedsHTML += `<div class="col">
+            <input type="checkbox" value="value" id="${breed}" />
+            <label class="" for="${breed}">
+            ${breed}
+            </label>
+            </div>`;
+            breed_countdown--;
+            if ((dog_breeds_arr.length - breed_countdown) % 5 == 0) {
+                console.log("Split");
+                breedsHTML += `<div class="w-100"></div>`;
             }
         }
     }
+    breedsHTML += `</div>`;
+    breedsHTML += `<div>`
+    document.getElementById("carousel-inner-id").innerHTML = breedsHTML;
+    document.getElementById("carousel-item-0").classList.add('active');
+    
+
 }
 
 function printDog(data) {
@@ -89,14 +119,13 @@ function shuffleDogCards() {
 }
 
 function printDogCards() {
-    let dog_cards = document.getElementById("dog_cards").innerHTML;
+    let dog_cards = "";
     let card_id = 1;
     for (let dog of dog_arr) {
-        console.log("DogId: " + dog[0].id);
-        console.log("Url: " + dog[0].url);
-
+        //console.log("DogId: " + dog[0].id);
+        //console.log("Url: " + dog[0].url);
         dog_cards = dog_cards +
-            `            <div class="flip-card m-2" style="width:150px;height:150px;">
+            `<div class="flip-card m-2" style="width:150px;height:150px;">
             <div class="flip-card-inner ${dog[0].id}" id="${card_id}" onclick="card_clicked(this)">
                 <div class="front">
                     <img src="doggo.jpg" style="width:150px;height:150px;">
@@ -108,14 +137,14 @@ function printDogCards() {
         </div>`
         card_id++;
     }
+    document.getElementById("dog_cards").innerHTML = "";
     document.getElementById("dog_cards").innerHTML = dog_cards;
 }
-
 
 function card_clicked(element) {
     //Matched Card are not processed further (Ignoring of matched cards)
     if (element.classList.contains("matched-card")) {
-        console.log("Check 1 - Already Matched card: " + element.classList.contains("matched-card")); // does not print to the console? 
+        console.log("Check 1 - Already Matched card: " + element.classList.contains("matched-card")); // does not print to the console? -> Review the check in log
         return;
     }
     //push card to the array
@@ -136,19 +165,24 @@ function card_clicked(element) {
 
 
 function checkMatch() {
-
     if (cur_open_cards_arr[0].classList[1] == cur_open_cards_arr[1].classList[1]) {
         console.log("Match");
+        correct_selected_pairs++;
+        tried_pairs++;
+        document.getElementById("tried_pairs").innerHTML = tried_pairs;
         withdrawCardMatch(cur_open_cards_arr[0]);
         withdrawCardMatch(cur_open_cards_arr[1]);
+        checkGameIsOver();
     }
-    else {
+    else if (cur_open_cards_arr[0].classList[1] != cur_open_cards_arr[1].classList[1]) {
         closeCard(cur_open_cards_arr[0]);
         closeCard(cur_open_cards_arr[1]);
+        tried_pairs++;
+        document.getElementById("tried_pairs").innerHTML = tried_pairs;
     }
-    tried_pairs++;
+    //tried_pairs++; // creates addiotional try after match end
     cur_open_cards_arr = []; //cu_open_arr has is not referenced anywhere, deleting content like this is okay
-    document.getElementById("tried_pairs").innerHTML = tried_pairs;
+    //document.getElementById("tried_pairs").innerHTML = tried_pairs;
 }
 
 function openCard(element) {
@@ -157,7 +191,6 @@ function openCard(element) {
     console.log("Open Cardlgiz: " + cur_open_cards_arr[0].id);
     document.getElementById(element.id).classList.remove('close-card');
     document.getElementById(element.id).classList.add('open-card');
-
 }
 
 function closeCard(element) {
@@ -171,3 +204,80 @@ function withdrawCardMatch(element) {
     document.getElementById(element.id).classList.add('matched-card');
 }
 
+function checkGameIsOver() {
+    console.log("Correct selected pairs: " + correct_selected_pairs);
+    console.log("Pairs: " + playset_pairs);
+    if (correct_selected_pairs == playset_pairs) {
+        checkHighscore();
+        alert("The Game is over! You won!");
+    }
+}
+
+function checkHighscore() {
+    console.log("Checking High Score")
+    switch (playset_pairs) {
+        case 4:
+            playset_pairs = 4;
+            if (highscore.easy == "No game played!" || highscore.easy > tried_pairs) {
+                highscore.easy = tried_pairs;
+                document.getElementById("highscore_easy").innerHTML = "Highscore - Easy: " + highscore.easy + " ";
+            }
+            break;
+        case 6:
+            if (highscore.normal == "No game played!" || highscore.normal > tried_pairs) {
+                highscore.normal = tried_pairs;
+                document.getElementById("highscore_normal").innerHTML = "Highscore - Normal: " + highscore.normal + " ";
+            }
+            break;
+        case 9:
+            if (highscore.hard == "No game played!" || highscore.hard > tried_pairs) {
+                highscore.hard = tried_pairs;
+                document.getElementById("highscore_hard").innerHTML = "Highscore - Hard: " + highscore.hard + " ";
+            }
+            break;
+        default:
+            console.log("Could not figure out difficulty!");
+    }
+}
+
+//when Button is clicked
+function startGame() {
+    correct_selected_pairs = 0;
+    tried_pairs = 0;
+    document.getElementById("tried_pairs").innerHTML = tried_pairs;
+    //TODO get current selected breeds
+
+    //Clear dogArray
+    dog_arr = [];
+    //get current selected option 
+    let game_difficulty = document.getElementById("difficulty").value;
+    switch (game_difficulty) {
+        case "easy":
+            playset_pairs = 4;
+            break;
+        case "normal":
+            playset_pairs = 6;
+            break;
+        case "hard":
+            playset_pairs = 9;
+            break;
+        default:
+            alert("Eror while specifying pairs. Default: 4 pairs");
+            playset_pairs = 4;
+    }
+    getDogs(playset_pairs);
+}
+
+function resetGame() {
+    document.getElementById("dog_cards").innerHTML = "";
+
+    document.getElementById("tried_pairs").innerHTML = 0;
+    //alert set game is reset
+    //reset all figures like the current highscore
+    //reset current cards
+    dog_arr = [];
+    //reset current breed selection
+    alert("The game is reset!");
+}
+
+//Timer https://stackoverflow.com/questions/29610521/how-to-make-a-javascript-timer-bar
