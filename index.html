@@ -66,11 +66,12 @@
             }
         }
 
-        #breeds {
+        .breeds {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             grid-template-rows: repeat(2, 1fr);
         }
+
     </style>
 
 
@@ -97,46 +98,85 @@
     <main class="container-fluid col-md-12">
         <div id="game_settings">
             <div class="mt-3">
-                <div id="breeds">
-                    <div>
-                        <input type="checkbox" id="Affenpinscher" name="Affenpinscher" value="Affenpinscher">
-                        <label for="Affenpinscher">Affenpinscher</label>
-                        </div><div>
-                        <input type="checkbox" id="Afghan Hound" name="Afghan Hound" value="Afghan Hound">
-                        <label for="Afghan Hound">Afghan Hound</label>
-                        </div><div>
-                        <input type="checkbox" id="African Hunting Dog" name="African Hunting Dog" value="African Hunting Dog">
-                        <label for="African Hunting Dog">African Hunting Dog</label>
-                        </div><div>
-                        <input type="checkbox" id="Airedale Terrier" name="Airedale Terrier" value="Airedale Terrier">
-                        <label for="Airedale Terrier">Airedale Terrier</label>
-                        </div><div>
-                        <input type="checkbox" id="Akbash Dog" name="Akbash Dog" value="Akbash Dog">
-                        <label for="Akbash Dog">Akbash Dog</label>
-                        </div><div>
-                        <input type="checkbox" id="Akita" name="Akita" value="Akita">
-                        <label for="Akita">Akita</label>
-                        </div><div>
-                        <input type="checkbox" id="Alapaha Blue Blood Bulldog" name="Alapaha Blue Blood Bulldog" value="Alapaha Blue Blood Bulldog">
-                        <label for="Alapaha Blue Blood Bulldog">Alapaha Blue Blood Bulldog</label>
-                        </div><div>
-                        <input type="checkbox" id="Alaskan Husky" name="Alaskan Husky" value="Alaskan Husky">
-                        <label for="Alaskan Husky">Alaskan Husky</label>
-                        </div><div>
-                        <input type="checkbox" id="Alaskan Malamute" name="Alaskan Malamute" value="Alaskan Malamute">
-                        <label for="Alaskan Malamute">Alaskan Malamute</label>
-                        </div><div>
-                        <input type="checkbox" id="American Bulldog" name="American Bulldog" value="American Bulldog">
-                        <label for="American Bulldog">American Bulldog</label>
+
+                <div id="breeds-carousel" class="carousel-inner">
+
+                    <!-- <div class="carousel-item active" id="breed-list-1">
+                        <div class="breeds" id="breeds">
+                            <div>
+                                <input type="checkbox" id="Affenpinscher" name="Affenpinscher" value="Affenpinscher">
+                                <label for="Affenpinscher">Affenpinscher</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="Afghan Hound" name="Afghan Hound" value="Afghan Hound">
+                                <label for="Afghan Hound">Afghan Hound</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="African Hunting Dog" name="African Hunting Dog"
+                                    value="African Hunting Dog">
+                                <label for="African Hunting Dog">African Hunting Dog</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="Airedale Terrier" name="Airedale Terrier"
+                                    value="Airedale Terrier">
+                                <label for="Airedale Terrier">Airedale Terrier</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="Akbash Dog" name="Akbash Dog" value="Akbash Dog">
+                                <label for="Akbash Dog">Akbash Dog</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="Akita" name="Akita" value="Akita">
+                                <label for="Akita">Akita</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="Alapaha Blue Blood Bulldog" name="Alapaha Blue Blood Bulldog"
+                                    value="Alapaha Blue Blood Bulldog">
+                                <label for="Alapaha Blue Blood Bulldog">Alapaha Blue Blood Bulldog</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="Alaskan Husky" name="Alaskan Husky" value="Alaskan Husky">
+                                <label for="Alaskan Husky">Alaskan Husky</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="Alaskan Malamute" name="Alaskan Malamute"
+                                    value="Alaskan Malamute">
+                                <label for="Alaskan Malamute">Alaskan Malamute</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="American Bulldog" name="American Bulldog"
+                                    value="American Bulldog">
+                                <label for="American Bulldog">American Bulldog</label>
+                            </div>
                         </div>
+                    </div>
+                    <div class="carousel-item" id="breed-list-1">
+                        <div class="breeds" id="breeds">
+                            <div>
+                                <input type="checkbox" id="Affenpinscher" name="Affenpinscher" value="Affenpinscher">
+                                <label for="Affenpinscher">Affenpinscher</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="Afghan Hound" name="Afghan Hound" value="Afghan Hound">
+                                <label for="Afghan Hound">Afghan Hound</label>
+                            </div>
+                            <div>
+                            </div>
+                        </div>
+                    </div>  -->
+
+
                 </div>
+
             </div>
+
+            </head>
             <div class="row justify-content-between">
                 <div class="col-1">
-                    <button type="button" class="btn btn-success" onclick="previousBreeds()">&lt;PREVIOUS</button>
+                    <button type="button" class="btn btn-success" onclick="previousBreed()">&lt;PREVIOUS</button>
                 </div>
                 <div class="col-1">
-                    <button type="button" class="btn btn-success" onclick="nextBreeds()">NEXT&gt;</button>
+                    <button type="button" class="btn btn-success" onclick="nextBreed()">NEXT&gt;</button>
                 </div>
             </div>
             <div class="mt-3">

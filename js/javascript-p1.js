@@ -66,49 +66,78 @@ function splitBreeds(breeds) {
 
 }
 
-function previousBreeds() {
+function previousBreed() {
     console.log("previous");
+    document.getElementById(`breed-list-${cur_breeds_index}`).classList.remove('active');
     cur_breeds_index--;
-    printBreeds(cur_breeds_index);
+    shiftBreedsList(cur_breeds_index);
 }
 
-function nextBreeds() {
+function nextBreed() {
     console.log("next");
+    document.getElementById(`breed-list-${cur_breeds_index}`).classList.remove('active');
     cur_breeds_index++;
-    printBreeds(cur_breeds_index);
+    shiftBreedsList(cur_breeds_index);
 }
 
-function printBreeds(breeds_index) {
-
+function shiftBreedsList(breeds_index){
     //If no breeds_index is specified, set default to current breeds index to 0
     if (breeds_index == undefined) {
+        console.log("Breeds index set 0");
         cur_breeds_index = 0;
     } else if (breeds_index == -1) {
+        console.log("Breeds index set end of list");
         cur_breeds_index = splitted_breeds_arr.length - 1;
     }
     else if (breeds_index > splitted_breeds_arr.length - 1) {
+        console.log("Breeds index set beginning of list");
         cur_breeds_index = 0;
     } else {
-        console.log("hit");
+        console.log("Breeds index set value between beginning and end");
         cur_breeds_index = breeds_index;
     }
+    document.getElementById(`breed-list-${cur_breeds_index}`).classList.add('active');
+}
 
+function printBreeds() {
 
-    console.log("Cur breeds index: " + cur_breeds_index);
     let dog_breeds_to_print_arr = new Array();
     dog_breeds_to_print_arr = splitted_breeds_arr[cur_breeds_index];
 
     let breedsHTML = "";
-    for (let breed_name of dog_breeds_to_print_arr) {
-        console.log(breed_name);
+
+    //<div class="breeds" id="breeds-list-"></div>
+    for (let i = 0; i < splitted_breeds_arr.length; i++) {
+        let dog_breeds_to_print_arr = new Array();
+        dog_breeds_to_print_arr = splitted_breeds_arr[i];
+
         breedsHTML = breedsHTML +
-            `<div>
-        <input type="checkbox" id="${breed_name}" name="${breed_name}" value="${breed_name}">
-        <label for="${breed_name}">${breed_name}</label>
-        </div>`;
+            `<div class="carousel-item" id="breed-list-${i}">
+             <div class="breeds" >`;
+        for (let breed_name of dog_breeds_to_print_arr) {
+            //console.log(breed_name);
+            breedsHTML = breedsHTML +
+                `
+            <div>
+            <input type="checkbox" id="${breed_name}" name="${breed_name}" value="${breed_name}">
+            <label for="${breed_name}">${breed_name}</label>
+            </div>`;
+        }
+        breedsHTML = breedsHTML + `</div></div>`;
     }
 
-    document.getElementById("breeds").innerHTML = breedsHTML;
+
+    // for (let breed_name of dog_breeds_to_print_arr) {
+    //     console.log(breed_name);
+    //     breedsHTML = breedsHTML +
+    //     `<div>
+    //     <input type="checkbox" id="${breed_name}" name="${breed_name}" value="${breed_name}">
+    //     <label for="${breed_name}">${breed_name}</label>
+    //     </div>`;
+    // }
+    console.log(breedsHTML);
+    document.getElementById("breeds-carousel").innerHTML = breedsHTML;
+    document.getElementById("breed-list-0").classList.add('active');
 }
 
 
