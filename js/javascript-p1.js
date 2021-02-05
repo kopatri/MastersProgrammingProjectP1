@@ -1,8 +1,10 @@
 // flip card: https://www.w3schools.com/howto/howto_css_flip_card.asp
 var dog_arr = new Array(); //Uncaught SyntaxError: redeclaration of let
 var dog_breeds_arr = new Array();
+var splitted_breeds_arr = new Array(); // sorted array of breeds with 10 dog breed names per index
 var cur_open_cards_arr = new Array();
 
+var cur_breeds_index = 0; //Default index value for splitted breeds arr
 var playset_pairs = 0;
 var tried_pairs = 0;
 var correct_selected_pairs = 0;
@@ -35,61 +37,80 @@ async function getBreeds() {
     try {
         let response = await fetch("https://api.thedogapi.com/v1/breeds")
         let breeds = await response.json()
-        printBreeds(breeds);
+        splitBreeds(breeds);
     }
     catch (error) {
         console.log("error", error);
     }
 
+    printBreeds();
 }
 
 
-function printBreeds(breeds) {
+function splitBreeds(breeds) {
+    //Get all breed names in one arry independently from the amount of different breeds
     for (let i = 0; i < breeds.length; i++) {
         dog_breeds_arr.push(breeds[i].name);
     }
-    for (let breed of dog_breeds_arr) {
-        console.log(breed);
+    console.log(dog_breeds_arr);
+
+    //Create an new array() for at least 10 breeds(breed_pack_size) at each index and fill it 
+    let breed_pack_size = 10;
+    for (var i = 0; i < dog_breeds_arr.length; i = i + breed_pack_size) {
+        splitted_breeds_arr.push(dog_breeds_arr.slice(i, i + breed_pack_size));
     }
+    console.log(splitted_breeds_arr);
+    let dogfourtytwo = splitted_breeds_arr[3][1];
+    console.log(dogfourtytwo);
 
-
-
-    //Get number of carousel items (10 checkboxes)
-    let carousel_items = (dog_breeds_arr.length / 10);
-    if (carousel_items % 1 > 0) {
-        carousel_items = carousel_items - (carousel_items % 1);
-        carousel_items++;
-    }
-
-    let breedsHTML = "";
-    let breed_countdown = dog_breeds_arr.length;
-
-    console.log("Carousel_items: " + carousel_items); // 18 carousel items for 172 breeds -> 172/ 10 -> 17.2 - 17.2 - 17.2 % 1 -> 17 -> 17 + 1 = 18
-    for (let k = 0; k < carousel_items; k++) {
-        breedsHTML += `<div class="carousel-item" id="carousel-item-${k}">`;
-        breedsHTML += `<div class="row">`;
-        for (let breed of dog_breeds_arr) {
-            console.log(breed);
-            breedsHTML += `<div class="col">
-            <input type="checkbox" value="value" id="${breed}" />
-            <label class="" for="${breed}">
-            ${breed}
-            </label>
-            </div>`;
-            breed_countdown--;
-            if ((dog_breeds_arr.length - breed_countdown) % 5 == 0) {
-                console.log("Split");
-                breedsHTML += `<div class="w-100"></div>`;
-            }
-        }
-    }
-    breedsHTML += `</div>`;
-    breedsHTML += `<div>`
-    document.getElementById("carousel-inner-id").innerHTML = breedsHTML;
-    document.getElementById("carousel-item-0").classList.add('active');
-    
 
 }
+
+function previousBreeds() {
+    console.log("previous");
+    cur_breeds_index--;
+    printBreeds(cur_breeds_index);
+}
+
+function nextBreeds() {
+    console.log("next");
+    cur_breeds_index++;
+    printBreeds(cur_breeds_index);
+}
+
+function printBreeds(breeds_index) {
+
+    //If no breeds_index is specified, set default to current breeds index to 0
+    if (breeds_index == undefined) {
+        cur_breeds_index = 0;
+    } else if (breeds_index == -1) {
+        cur_breeds_index = splitted_breeds_arr.length - 1;
+    }
+    else if (breeds_index > splitted_breeds_arr.length - 1) {
+        cur_breeds_index = 0;
+    } else {
+        console.log("hit");
+        cur_breeds_index = breeds_index;
+    }
+
+
+    console.log("Cur breeds index: " + cur_breeds_index);
+    let dog_breeds_to_print_arr = new Array();
+    dog_breeds_to_print_arr = splitted_breeds_arr[cur_breeds_index];
+
+    let breedsHTML = "";
+    for (let breed_name of dog_breeds_to_print_arr) {
+        console.log(breed_name);
+        breedsHTML = breedsHTML +
+            `<div>
+        <input type="checkbox" id="${breed_name}" name="${breed_name}" value="${breed_name}">
+        <label for="${breed_name}">${breed_name}</label>
+        </div>`;
+    }
+
+    document.getElementById("breeds").innerHTML = breedsHTML;
+}
+
 
 function printDog(data) {
     console.log(data)
