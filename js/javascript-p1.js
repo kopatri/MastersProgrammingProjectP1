@@ -56,7 +56,7 @@ async function getDogs(requested_dog_pairs, requested_breed_id) {
     for (let dog of dogs) {
         dog_arr.push(dog)
     }
-
+    console.log("Dog array: "+ dog_arr);
     if (playset_pairs == dog_arr.length) {
         duplicateDogCards();
         shuffleDogCards();
@@ -403,7 +403,8 @@ function resetGame() {
     cur_breed_selection_id_arr = [];
     cur_breed_selection_name_arr = [];
     document.getElementById("selected_breeds").innerHTML = "Selected breeds:";
-    //uncheck current breed selection with reprinting the breed selection
+    //uncheck current breed selection with reprinting the breed selection and set breed index = 0
+    cur_breeds_index = 0
     printBreeds();
 
     alert("The game is reset!");
