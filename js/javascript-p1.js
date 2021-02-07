@@ -10,6 +10,7 @@ var cur_breeds_index = 0; //Default index value for splitted breeds arr
 var playset_pairs = 0;
 var tried_pairs = 0;
 var correct_selected_pairs = 0;
+var countDown = 0 //Placeholder for countdown
 
 //user input related data and functions
 var highscore = { easy: "No game played!", normal: "No game played!", hard: "No game played!" };
@@ -93,7 +94,7 @@ function startCountDown() {
     let secondsleft = time;
     document.getElementById("progressBar").style = `width: 100%`;
 
-    let countDown = setInterval(function () {
+    countDown = setInterval(function () {
 
         secondsleft = secondsleft - 1;
         let width = secondsleft / secondsstart * 100;
@@ -104,14 +105,18 @@ function startCountDown() {
     
         //resetting the game when the time is over
         if (secondsleft < 0) {
-            //Stop the setInterval Method
-            clearInterval(countDown);
+            resetCountdown()
             console.log("Timer is finished");
             alert("The game time is over");
             resetGame();
         }
 
     }, 1000);
+}
+
+function resetCountdown(){
+    clearInterval(countDown);
+    document.getElementById("progressBar").style = "width: 0%";
 }
 
 function splitBreeds(breeds) {
@@ -373,6 +378,7 @@ function checkHighscore() {
 
 //when Button is clicked
 function startGame() {
+    resetCountdown()
     document.getElementById("dog_cards").innerHTML = "";
     correct_selected_pairs = 0;
     tried_pairs = 0;
@@ -444,6 +450,7 @@ async function buildAPICall() {
 }
 
 function resetGame() {
+    resetCountdown()
     document.getElementById("dog_cards").innerHTML = "";
     document.getElementById("tried_pairs").innerHTML = 0;
     document.getElementById("breeds_error").innerHTML = "";
