@@ -344,6 +344,7 @@ function checkGameIsOver() {
     console.log("Correct selected pairs: " + correct_selected_pairs);
     console.log("Pairs: " + playset_pairs);
     if (correct_selected_pairs == playset_pairs) {
+        resetCountdown();
         checkHighscore();
         alert("The Game is over! You won!");
     }
