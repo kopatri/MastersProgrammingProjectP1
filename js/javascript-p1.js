@@ -91,17 +91,17 @@ function startCountDown() {
 
     let secondsstart = time;
     let secondsleft = time;
+    document.getElementById("progressBar").style = `width: 100%`;
+
     let countDown = setInterval(function () {
 
         secondsleft = secondsleft - 1;
         let width = secondsleft / secondsstart * 100;
         console.log("width: " + width);
-        let progressbar = document.getElementById("progressBar");
 
         console.log("secondsleft: " + secondsleft);
-        progressbar.style = `width: ${width}%`;
-        progressbar.setAttribute("aria-valuenow", width);
-
+        document.getElementById("progressBar").style = `width: ${width}%`;
+    
         //resetting the game when the time is over
         if (secondsleft < 0) {
             //Stop the setInterval Method
