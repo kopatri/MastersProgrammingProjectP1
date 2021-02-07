@@ -72,6 +72,21 @@
             grid-template-rows: repeat(2, 1fr);
         }
 
+
+        #breeds_difference{
+            color: red;
+        }
+
+        #breeds_error {
+            animation: flash 1s linear infinite;
+            color: red;
+        }
+
+        @keyframes flash {
+            50% {
+                opacity: 0;
+            }
+        }
     </style>
 
 
@@ -174,6 +189,11 @@
             <div class="row justify-content-between">
                 <div class="col-1">
                     <button type="button" class="btn btn-success" onclick="previousBreed()">&lt;PREVIOUS</button>
+                </div>
+                <div class="col">
+                    <p class="text-center m-0" id="breeds_error"></p>
+                     <p class="text-center m-0" id="breeds_difference"></p>
+
                 </div>
                 <div class="col-1">
                     <button type="button" class="btn btn-success" onclick="nextBreed()">NEXT&gt;</button>

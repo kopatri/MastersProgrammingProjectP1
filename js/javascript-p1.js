@@ -32,9 +32,8 @@ async function getBreeds() {
 //Get dogs based on their breed id and their limit or get completely random dogs by limit
 async function getDogs(requested_dog_pairs, requested_breed_id) {
 
-    console.log("Requested dog amount: " + requested_dog_pairs);
-    console.log("Requested breed id: " + requested_breed_id);
-
+    //console.log("Requested dog amount: " + requested_dog_pairs);
+    //console.log("Requested breed id: " + requested_breed_id);
 
     let query_string = "";
     if (requested_breed_id != undefined) {
@@ -44,23 +43,44 @@ async function getDogs(requested_dog_pairs, requested_breed_id) {
         query_string = `https://api.thedogapi.com/v1/images/search?limit=${requested_dog_pairs}&mime_types=jpg`;
     }
 
-    let dogs = new Array();
+    let received_dogs = new Array();
     try {
         let response = await fetch(query_string);
-        dogs = await response.json()
+        received_dogs = await response.json()
+
+        //Push each single dog in an 2D dog array
+        for (let dog of received_dogs) {
+            dog_arr.push(dog)
+        }
+
+        // console.log("received_dogs.length: " + received_dogs.length);
+        // console.log("requested_dog_pairs: " + requested_dog_pairs);
+        // console.log("requested_breed_id: " + requested_breed_id);
+        if (received_dogs.length < requested_dog_pairs) {
+            document.getElementById("breeds_error").innerHTML = 
+            "The current selection of breeds does not provide enough playcards."
+        }
     }
     catch (error) {
         console.log("error", error);
     }
-    //Push each single dog in an 2D dog array
-    for (let dog of dogs) {
-        dog_arr.push(dog)
-    }
-    console.log("Dog array: "+ dog_arr);
+
+    //If enough cards are receive the game can start. Otherwise an error will be displayed with the needed amount of dogs.
     if (playset_pairs == dog_arr.length) {
+        document.getElementById("breeds_error").innerHTML = "";
+        document.getElementById("breeds_difference").innerHTML = "";
         duplicateDogCards();
         shuffleDogCards();
         printDogCardsToHTML();
+    }else if(playset_pairs > dog_arr.length){
+        let difference = playset_pairs - dog_arr.length;
+        let msg = "";
+        if(difference == 1){
+            msg = "You need 1 more dog!"
+        }else{
+            msg = `You need ${difference} more dogs!`;
+        }
+        document.getElementById("breeds_difference").innerHTML =  "Please select additional breeds or lower game difficulty: "+ msg
     }
 }
 
@@ -113,11 +133,11 @@ function shiftBreedsList(breeds_index) {
 
 function breedChanged(el) {
     if (el.checked) {
-        console.log("Checked: " + el.id);
+        //console.log("Checked: " + el.id);
         cur_breed_selection_id_arr.push(el.id);
         cur_breed_selection_name_arr.push(el.value);
     } else {
-        console.log("Not checked: " + el.id);
+        //console.log("Not checked: " + el.id);
 
         //Array for breed ids
         let to_uncheck_id = cur_breed_selection_id_arr.indexOf(el.id);
@@ -323,6 +343,7 @@ function checkHighscore() {
 
 //when Button is clicked
 function startGame() {
+    document.getElementById("dog_cards").innerHTML = "";
     correct_selected_pairs = 0;
     tried_pairs = 0;
     document.getElementById("tried_pairs").innerHTML = tried_pairs;
@@ -349,22 +370,22 @@ function startGame() {
 }
 
 
-function buildAPICall() {
+async function buildAPICall() {
     let breeds = cur_breed_selection_id_arr;
     let playsets = playset_pairs;
     if (breeds.length == 0) {
         getDogs(playsets);
         return;
     }
-    console.log("breeds: " + breeds);
+    //console.log("breeds: " + breeds);
     let API_call_arr = new Array(); // Array holding the limit and breed id at each index to minimize the amount of API requests
 
     //fill API call array with the breeds ids and set the limit for all breeds to zero
     for (let breed_id of breeds) {
-        console.log("BreedID: " + breed_id);
+        //console.log("BreedID: " + breed_id);
         API_call_arr.push({ limit: 0, id: breed_id }) //fuck
     }
-    console.log("API_call_arr: " + API_call_arr);
+    //console.log("API_call_arr: " + API_call_arr);
 
     let neededCards = playsets;
     var limitplus = 1;
@@ -380,11 +401,12 @@ function buildAPICall() {
     }
     console.log(API_call_arr);
 
+
     for (let i = 0; i < API_call_arr.length; i++) {
         if (API_call_arr[i].limit > 0) {
             // console.log("Request limit: "+ API_call_arr[i].limit);
             // console.log("Request breed_id: "+ API_call_arr[i].id);
-            getDogs(API_call_arr[i].limit, API_call_arr[i].id);
+            getDogs(API_call_arr[i].limit, API_call_arr[i].id)
         } else {
             //Sorry no Api calls for breed_id with limit = 0
         }
@@ -393,8 +415,9 @@ function buildAPICall() {
 
 function resetGame() {
     document.getElementById("dog_cards").innerHTML = "";
-
     document.getElementById("tried_pairs").innerHTML = 0;
+    document.getElementById("breeds_error").innerHTML = "";
+    document.getElementById("breeds_difference").innerHTML = "";
     //alert set game is reset
     //reset all figures like the current highscore
     //reset current cards
