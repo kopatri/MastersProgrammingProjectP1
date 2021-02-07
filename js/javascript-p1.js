@@ -57,8 +57,8 @@ async function getDogs(requested_dog_pairs, requested_breed_id) {
         // console.log("requested_dog_pairs: " + requested_dog_pairs);
         // console.log("requested_breed_id: " + requested_breed_id);
         if (received_dogs.length < requested_dog_pairs) {
-            document.getElementById("breeds_error").innerHTML = 
-            "The current selection of breeds does not provide enough playcards."
+            document.getElementById("breeds_error").innerHTML =
+                "The current selection of breeds does not provide enough playcards."
         }
     }
     catch (error) {
@@ -72,16 +72,46 @@ async function getDogs(requested_dog_pairs, requested_breed_id) {
         duplicateDogCards();
         shuffleDogCards();
         printDogCardsToHTML();
-    }else if(playset_pairs > dog_arr.length){
+        startCountDown();
+    } else if (playset_pairs > dog_arr.length) {
         let difference = playset_pairs - dog_arr.length;
         let msg = "";
-        if(difference == 1){
+        if (difference == 1) {
             msg = "You need 1 more dog!"
-        }else{
+        } else {
             msg = `You need ${difference} more dogs!`;
         }
-        document.getElementById("breeds_difference").innerHTML =  "Please select additional breeds or lower game difficulty: "+ msg
+        document.getElementById("breeds_difference").innerHTML = "Please select additional breeds or lower game difficulty: " + msg
     }
+}
+
+function startCountDown() {
+    let time = playset_pairs * 8;
+    console.log("time: " + time);
+
+    let secondsstart = time;
+    let secondsleft = time;
+    let countDown = setInterval(function () {
+
+        secondsleft = secondsleft - 1;
+        let width = secondsleft / secondsstart * 100;
+        console.log("width: " + width);
+        let progressbar = document.getElementById("progressBar");
+
+        console.log("secondsleft: " + secondsleft);
+        progressbar.style = `width: ${width}%`;
+        progressbar.setAttribute("aria-valuenow", width);
+
+        //resetting the game when the time is over
+        if (secondsleft < 0) {
+            //Stop the setInterval Method
+            clearInterval(countDown);
+            console.log("Timer is finished");
+            alert("The game time is over");
+            resetGame();
+        }
+
+    }, 1000);
 }
 
 function splitBreeds(breeds) {
