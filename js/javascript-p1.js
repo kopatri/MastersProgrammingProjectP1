@@ -491,18 +491,21 @@ function showBreedInformation(element) {
 }
 
 function printBreedsInfo(asked_breed_info) {
-    let breeds_obj = asked_breed_info[0];
-    //check if breeds information is empty
-    if (breeds_obj == undefined) {
-        console.log("Breeds info undefined!");
-        document.getElementById("breeds_name").innerHTML = "Breeds info not available!";
-    } else {
-        document.getElementById("breeds_name").innerHTML = asked_breed_info[0].name;
-        for (var key in obj) {
+    let obj = asked_breed_info[0];
 
-            let el = document.getElementById("modal_content");
+    //check if breeds information is empty
+    document.getElementById("modal_content").innerHTML= "";
+    let el = document.getElementById("modal_content");
+    let title = document.createElement("h3");
+    if (obj == undefined) {
+        console.log("Breeds info undefined!");
+        title.innerHTML = "Breeds info not available!";
+        el.appendChild(title);
+    } else {
+        title.innerHTML = asked_breed_info[0].name;
+        el.appendChild(title);
+        for (var key in obj) {
             let p1 = document.createElement("p");
-        
             console.log(key+": ");
             p1.innerHTML = "<b>"+key+ "</b>" +  ": ";
             el.appendChild(p1);
@@ -519,70 +522,19 @@ function printBreedsInfo(asked_breed_info) {
                 console.log(obj[key]);
             }
          }
-
-        btn.onclick();
-
     }
 
-
+    openModal();
 }
 
 
-
-let obj = {
-    "weight": {
-        "imperial": "23 - 28",
-        "metric": "10 - 13"
-    },
-    "height": {
-        "imperial": "15.5 - 20",
-        "metric": "39 - 51"
-    },
-    "id": 111,
-    "name": "Finnish Spitz",
-    "bred_for": "Hunting birds, small mammals",
-    "breed_group": "Non-Sporting",
-    "life_span": "12 - 15 years",
-    "temperament": "Playful, Loyal, Independent, Intelligent, Happy, Vocal",
-    "reference_image_id": "3PjHlQbkV"
+function openModal(){
+    let modal = document.getElementById("myModal");
+    modal.style.display = "block";
 }
-
-for (var key in obj) {
-
-    let el = document.getElementById("modal_content");
-    let p1 = document.createElement("p");
-
-    console.log(key+": ");
-    p1.innerHTML = "<b>"+key+ "</b>" +  ": ";
-    el.appendChild(p1);
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-        for (let key2 in obj[key]) {
-            let p2 = document.createElement("p");
-            console.log( key2+": ", obj[key][key2]);
-            p2.innerHTML= "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + key2+ "</b>" + ": " + obj[key][key2];
-            el.appendChild(p2);
-        }
-    }else{
-        p1.innerHTML= "<b>"+key+ "</b>" + ": " + obj[key];
-        el.appendChild(p1);
-        console.log(obj[key]);
-    }
- }
-
 
 // Get the modal
 var modal = document.getElementById("myModal");
-
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal 
-btn.onclick = function () {
-    modal.style.display = "block";
-}
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
