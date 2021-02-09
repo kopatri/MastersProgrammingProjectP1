@@ -102,7 +102,7 @@ function startCountDown() {
 
         console.log("secondsleft: " + secondsleft);
         document.getElementById("progressBar").style = `width: ${width}%`;
-    
+
         //resetting the game when the time is over
         if (secondsleft < 0) {
             resetCountdown()
@@ -114,7 +114,7 @@ function startCountDown() {
     }, 1000);
 }
 
-function resetCountdown(){
+function resetCountdown() {
     clearInterval(countDown);
     document.getElementById("progressBar").style = "width: 0%";
 }
@@ -261,7 +261,7 @@ function printDogCardsToHTML() {
         //console.log("DogId: " + dog[0].id);
         //console.log("Url: " + dog[0].url);
         dog_cards = dog_cards +
-            `<div class="flip-card m-2" style="width:150px;height:150px;">
+            `<a href="#openModal"><div class="flip-card m-2" style="width:150px;height:150px;">
             <div class="flip-card-inner ${dog.id}" id="card-${card_id}" onclick="card_clicked(this)">
                 <div class="front">
                     <img src="doggo.jpg" style="width:150px;height:150px;">
@@ -270,7 +270,7 @@ function printDogCardsToHTML() {
                     <img src="${dog.url}" style="width:150px;height:150px;">
                 </div>
             </div>
-        </div>`
+        </div></a>`
         card_id++;
     }
     document.getElementById("dog_cards").innerHTML = "";
@@ -280,7 +280,9 @@ function printDogCardsToHTML() {
 function card_clicked(element) {
     //Matched Card are not processed further (Ignoring of matched cards)
     if (element.classList.contains("matched-card")) {
-        console.log("Check 1 - Already Matched card: " + element.classList.contains("matched-card")); // does not print to the console? -> Review the check in log
+        console.log("Check 1 - Already Matched card: " + element.classList.contains("matched-card"));
+        //Show user breed information
+        showBreedInformation(element);
         return;
     }
     //push card to the array
@@ -354,7 +356,6 @@ function checkHighscore() {
     console.log("Checking High Score")
     switch (playset_pairs) {
         case 4:
-            playset_pairs = 4;
             if (highscore.easy == "No game played!" || highscore.easy > tried_pairs) {
                 highscore.easy = tried_pairs;
                 document.getElementById("highscore_easy").innerHTML = "Highscore - Easy: " + highscore.easy + " ";
@@ -471,4 +472,122 @@ function resetGame() {
     alert("The game is reset!");
 }
 
-//Timer https://stackoverflow.com/questions/29610521/how-to-make-a-javascript-timer-bar
+function showBreedInformation(element) {
+    let asked_breed_info = new Array();
+    console.log("Element: " + element.classList.item(1));
+    console.log(dog_arr);
+    for (let i = 0; i < dog_arr.length; i++) {
+        console.log(dog_arr[i].id);
+        console.log(element.classList.item(1));
+        if (dog_arr[i].id == element.classList.item(1)) {
+            console.log("Match");
+            asked_breed_info = dog_arr[i].breeds;
+            console.log(dog_arr[i]);
+            console.log(asked_breed_info);
+            printBreedsInfo(asked_breed_info);
+            return;
+        }
+    }
+}
+
+function printBreedsInfo(asked_breed_info) {
+    let breeds_obj = asked_breed_info[0];
+    //check if breeds information is empty
+    if (breeds_obj == undefined) {
+        console.log("Breeds info undefined!");
+        document.getElementById("breeds_name").innerHTML = "Breeds info not available!";
+    } else {
+        document.getElementById("breeds_name").innerHTML = asked_breed_info[0].name;
+        for (var key in obj) {
+
+            let el = document.getElementById("modal_content");
+            let p1 = document.createElement("p");
+        
+            console.log(key+": ");
+            p1.innerHTML = "<b>"+key+ "</b>" +  ": ";
+            el.appendChild(p1);
+            if (typeof obj[key] === 'object' && obj[key] !== null) {
+                for (let key2 in obj[key]) {
+                    let p2 = document.createElement("p");
+                    console.log( key2+": ", obj[key][key2]);
+                    p2.innerHTML= "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + key2+ "</b>" + ": " + obj[key][key2];
+                    el.appendChild(p2);
+                }
+            }else{
+                p1.innerHTML= "<b>"+key+ "</b>" + ": " + obj[key];
+                el.appendChild(p1);
+                console.log(obj[key]);
+            }
+         }
+
+        btn.onclick();
+
+    }
+
+
+}
+
+
+
+let obj = {
+    "weight": {
+        "imperial": "23 - 28",
+        "metric": "10 - 13"
+    },
+    "height": {
+        "imperial": "15.5 - 20",
+        "metric": "39 - 51"
+    },
+    "id": 111,
+    "name": "Finnish Spitz",
+    "bred_for": "Hunting birds, small mammals",
+    "breed_group": "Non-Sporting",
+    "life_span": "12 - 15 years",
+    "temperament": "Playful, Loyal, Independent, Intelligent, Happy, Vocal",
+    "reference_image_id": "3PjHlQbkV"
+}
+
+for (var key in obj) {
+
+    let el = document.getElementById("modal_content");
+    let p1 = document.createElement("p");
+
+    console.log(key+": ");
+    p1.innerHTML = "<b>"+key+ "</b>" +  ": ";
+    el.appendChild(p1);
+    if (typeof obj[key] === 'object' && obj[key] !== null) {
+        for (let key2 in obj[key]) {
+            let p2 = document.createElement("p");
+            console.log( key2+": ", obj[key][key2]);
+            p2.innerHTML= "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + key2+ "</b>" + ": " + obj[key][key2];
+            el.appendChild(p2);
+        }
+    }else{
+        p1.innerHTML= "<b>"+key+ "</b>" + ": " + obj[key];
+        el.appendChild(p1);
+        console.log(obj[key]);
+    }
+ }
+
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function () {
+    modal.style.display = "block";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
