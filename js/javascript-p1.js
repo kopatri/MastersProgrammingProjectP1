@@ -187,7 +187,7 @@ function breedChanged(el) {
         }
     }
 
-    let selected_breeds = "Selected breeds:";
+    let selected_breeds = "Selected breeds: ";
     for (let breed_name of cur_breed_selection_name_arr) {
         selected_breeds = selected_breeds + " " + breed_name + ",";
     }
@@ -529,12 +529,12 @@ function printBreedsInfo(asked_breed_info) {
 
 
 function openModal(){
-    let modal = document.getElementById("myModal");
+    let modal = document.getElementById("breedsModal");
     modal.style.display = "block";
 }
 
 // Get the modal
-var modal = document.getElementById("myModal");
+var modal = document.getElementById("breedsModal");
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
