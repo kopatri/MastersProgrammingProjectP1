@@ -1,6 +1,6 @@
 // flip card: https://www.w3schools.com/howto/howto_css_flip_card.asp
-var dog_arr = new Array(); //Uncaught SyntaxError: redeclaration of let
-var dog_breeds_arr = new Array();
+let dog_arr = new Array(); //Uncaught SyntaxError: redeclaration of let
+let dog_breeds_arr = new Array();
 var splitted_breeds_arr = new Array(); // sorted array of breeds with 10 dog breed names per index
 var cur_open_cards_arr = new Array();
 var cur_breed_selection_id_arr = new Array(); //current selection of checked breed id checkboxes
@@ -13,7 +13,7 @@ var correct_selected_pairs = 0;
 var countDown = 0 //Placeholder for countdown
 
 //user input related data and functions
-var highscore = { easy: "No game played!", normal: "No game played!", hard: "No game played!" };
+var highscore = { 'easy' : "No game played!", 'normal' : "No game played!", 'hard' : "No game played!" };
 
 //Print the breeds to corresponding HTML checkboxes
 getBreeds()
@@ -347,9 +347,25 @@ function checkGameIsOver() {
     console.log("Pairs: " + playset_pairs);
     if (correct_selected_pairs == playset_pairs) {
         resetCountdown();
-        checkHighscore();
+        if (checkHighscore()) {
+            //Set localstorage
+            localStorage.setItem('savedHighscores', JSON.stringify(highscore))
+        }
         alert("The Game is over! You won!");
     }
+}
+
+setSavedHighscores();
+function setSavedHighscores() {
+    highscore = JSON.parse(localStorage.getItem('savedHighscores'));
+    if(highscore != null) {
+        document.getElementById("highscore_easy").innerHTML = "Highscore - Easy: " + highscore.easy + " ";
+        document.getElementById("highscore_normal").innerHTML = "Highscore - Normal: " + highscore.normal + " ";
+        document.getElementById("highscore_hard").innerHTML = "Highscore - Hard: " + highscore.hard + " ";
+    }
+    else {//Get the default values from the top 
+    }
+
 }
 
 function checkHighscore() {
@@ -359,23 +375,27 @@ function checkHighscore() {
             if (highscore.easy == "No game played!" || highscore.easy > tried_pairs) {
                 highscore.easy = tried_pairs;
                 document.getElementById("highscore_easy").innerHTML = "Highscore - Easy: " + highscore.easy + " ";
+                return true;
             }
             break;
         case 6:
             if (highscore.normal == "No game played!" || highscore.normal > tried_pairs) {
                 highscore.normal = tried_pairs;
                 document.getElementById("highscore_normal").innerHTML = "Highscore - Normal: " + highscore.normal + " ";
+                return true;
             }
             break;
         case 9:
             if (highscore.hard == "No game played!" || highscore.hard > tried_pairs) {
                 highscore.hard = tried_pairs;
                 document.getElementById("highscore_hard").innerHTML = "Highscore - Hard: " + highscore.hard + " ";
+                return true;
             }
             break;
         default:
             console.log("Could not figure out difficulty!");
     }
+    return false;
 }
 
 //when Button is clicked
@@ -494,7 +514,7 @@ function printBreedsInfo(asked_breed_info) {
     let obj = asked_breed_info[0];
 
     //check if breeds information is empty
-    document.getElementById("modal_content").innerHTML= "";
+    document.getElementById("modal_content").innerHTML = "";
     let el = document.getElementById("modal_content");
     let title = document.createElement("h3");
     if (obj == undefined) {
@@ -506,29 +526,29 @@ function printBreedsInfo(asked_breed_info) {
         el.appendChild(title);
         for (var key in obj) {
             let p1 = document.createElement("p");
-            console.log(key+": ");
-            p1.innerHTML = "<b>"+key+ "</b>" +  ": ";
+            console.log(key + ": ");
+            p1.innerHTML = "<b>" + key + "</b>" + ": ";
             el.appendChild(p1);
             if (typeof obj[key] === 'object' && obj[key] !== null) {
                 for (let key2 in obj[key]) {
                     let p2 = document.createElement("p");
-                    console.log( key2+": ", obj[key][key2]);
-                    p2.innerHTML= "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + key2+ "</b>" + ": " + obj[key][key2];
+                    console.log(key2 + ": ", obj[key][key2]);
+                    p2.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + key2 + "</b>" + ": " + obj[key][key2];
                     el.appendChild(p2);
                 }
-            }else{
-                p1.innerHTML= "<b>"+key+ "</b>" + ": " + obj[key];
+            } else {
+                p1.innerHTML = "<b>" + key + "</b>" + ": " + obj[key];
                 el.appendChild(p1);
                 console.log(obj[key]);
             }
-         }
+        }
     }
 
     openModal();
 }
 
 
-function openModal(){
+function openModal() {
     let modal = document.getElementById("breedsModal");
     modal.style.display = "block";
 }
