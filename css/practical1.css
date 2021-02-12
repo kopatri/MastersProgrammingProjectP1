@@ -29,6 +29,7 @@ a{
     padding-right: 3px;
 }
 
+/*Styling of the game cards*/
 .cards{
     display:grid;
     grid-template-columns: auto;

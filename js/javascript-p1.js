@@ -362,12 +362,12 @@ let checkGameIsOver = function () {
 }
 
 //Save the highscore to the localstorare
-let saveHighScore = function() {
+let saveHighScore = function () {
     localStorage.setItem('savedHighscores', JSON.stringify(highscore))
 }
 
 //Get the highscore from the localstorage
-let getSavedHighscores = function() {
+let getSavedHighscores = function () {
     highscore = JSON.parse(localStorage.getItem('savedHighscores'));
     if (highscore != null) {
         document.getElementById("highscore_easy").innerHTML = "Highscore - Easy: " + highscore.easy + " ";
@@ -377,7 +377,7 @@ let getSavedHighscores = function() {
 }
 
 //Check if the user has beaten the current highscore
-let checkHighscore = function() {
+let checkHighscore = function () {
     switch (playset_pairs) {
         case 4:
             if (highscore.easy == "No game played!" || highscore.easy > tried_pairs) {
@@ -407,7 +407,7 @@ let checkHighscore = function() {
 }
 
 //when the start button is cliked
-let startGame = function() {
+let startGame = function () {
     resetPriorEachGame();
     let game_difficulty = document.getElementById("difficulty").value;
     switch (game_difficulty) {
@@ -428,7 +428,7 @@ let startGame = function() {
 }
 
 //Building API calls based on current selected game settings
-let buildDogAPICall = function() {
+let buildDogAPICall = function () {
     let breeds = getCurrentSelectedBreedsIDs();
     let neededCards = playset_pairs;
     if (breeds.length == 0) {
@@ -437,7 +437,7 @@ let buildDogAPICall = function() {
     }
 
     // Array holding the limit and breed id at each index to minimize the amount of API requests
-    let API_call_arr = new Array(); 
+    let API_call_arr = new Array();
 
     //fill the API call array with the breeds ids and set the limit for all breeds to zero
     for (let breed_id of breeds) {
@@ -468,7 +468,7 @@ let buildDogAPICall = function() {
 }
 
 //Reset individual game properties
-let resetPriorEachGame = function(){
+let resetPriorEachGame = function () {
     resetCountdown();
     document.getElementById("dog_cards").innerHTML = "";
     correct_selected_pairs = 0;
@@ -491,13 +491,13 @@ let resetGame = function (alert_message) {
     document.getElementById("breeds_difference").innerHTML = "";
 
     //Triggering an alert if requested
-    if(alert_message != null){
+    if (alert_message != null) {
         alert(alert_message + " The game will be reset!");
     }
 }
 
 //Check which breed info was is requested and push it to the array asked_breed_info
-let showBreedInformation = function(element) {
+let showBreedInformation = function (element) {
     let asked_breed_info = new Array();
     for (let i = 0; i < dog_arr.length; i++) {
         if (dog_arr[i].id == element.classList.item(1)) {
@@ -509,7 +509,7 @@ let showBreedInformation = function(element) {
 }
 
 //Attach the breeds info to the HTML modal but previously check if breeds info is available
-let printBreedsInfoToModalHTML = function(asked_breed_info) {
+let printBreedsInfoToModalHTML = function (asked_breed_info) {
     let obj = asked_breed_info[0];
 
     document.getElementById("modal_content").innerHTML = "";
@@ -528,17 +528,17 @@ let printBreedsInfoToModalHTML = function(asked_breed_info) {
         for (var key in obj) {
             let p1 = document.createElement("p");
             // console.log(key + ": ");
-            p1.innerHTML = "<b>" + key + "</b>" + ": ";
+            p1.innerHTML = "<b>" + removeUnderscore(key) + "</b>" + ": ";
             el.appendChild(p1);
             if (typeof obj[key] === 'object' && obj[key] !== null) {
                 for (let key2 in obj[key]) {
                     let p2 = document.createElement("p");
                     // console.log(key2 + ": ", obj[key][key2]);
-                    p2.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + key2 + "</b>" + ": " + obj[key][key2];
+                    p2.innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;<b>" + removeUnderscore(key2) + "</b>" + ": " + obj[key][key2];
                     el.appendChild(p2);
                 }
             } else {
-                p1.innerHTML = "<b>" + key + "</b>" + ": " + obj[key];
+                p1.innerHTML = "<b>" + removeUnderscore(key) + "</b>" + ": " + obj[key];
                 el.appendChild(p1);
                 // console.log(obj[key]);
             }
@@ -547,11 +547,16 @@ let printBreedsInfoToModalHTML = function(asked_breed_info) {
     openModal();
 }
 
+//Improve readability of breed attribute description by removing underscore
+let removeUnderscore = function (key) {
+    return key.replace(/[^a-z]/g, ' ');
+}
+
 //Define the model and make it accessible
 let modal = document.getElementById("breedsModal");
 
 //Open the modal which contains the breed information
-let openModal = function() {
+let openModal = function () {
     modal.style.display = "block";
 }
 
