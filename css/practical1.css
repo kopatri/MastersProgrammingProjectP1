@@ -1,0 +1,128 @@
+#title_website{
+    background: grey;
+    color: white;
+    border-radius: 10px;
+}
+
+#breeds_checkbox{
+    border-radius: 10px;
+    padding-top: 10px;
+    background: white;
+    border: 1px solid green;
+}
+
+.ctrtxt{
+    padding: 7px;
+}
+
+/*Style the sizing of the cards*/
+img{
+    width:150px;
+    height:150px;
+}
+
+/* Start - Card animation*/
+@keyframes flipOpen {
+    from {
+        transform: rotateY(0deg);
+    }
+
+    to {
+        transform: rotateY(-180deg)
+    }
+}
+
+@keyframes flipClose {
+    from {
+        transform: rotateY(-180deg);
+    }
+
+    to {
+        transform: rotateY(0deg)
+    }
+}
+/* End - Card animation*/
+
+/*Styling of the checkboxes */
+.breeds_checkbox {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+/* Start - Handling the requested breeds visually */
+#breeds_difference {
+    color: red;
+}
+
+#breeds_error {
+    animation: flash 1s linear infinite;
+    color: red;
+}
+
+@keyframes flash {
+    50% {
+        opacity: 0;
+    }
+}
+/* End - Handling the requested breeds visually */
+
+/* The code below was taken from a post by w3schools at https://www.w3schools.com/howto/howto_css_flip_card.asp (last accessed 2021-02-18) */ 
+/* BEGIN - adpated and modified Code */
+.flip-card {
+    perspective: 1000px;
+    width:150px;
+    height:150px;
+}
+
+.flip-card-inner {
+    transition: transform 1s;
+    transform-style: preserve-3d;
+}
+
+.open-card {
+    animation-name: flipOpen;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+.close-card {
+    animation-name: flipClose;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+.front,
+.back {
+    position: absolute;
+    backface-visibility: hidden;
+}
+
+.back {
+    transform: rotateY(-180deg);
+}
+/* END - adpated and modified Code */
+
+/* The code below was taken from a post by w3schools at https://www.w3schools.com/howto/howto_css_modals.asp(last accessed 2021-02-18) */ 
+/* BEGIN - adpated and modified Code */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 50px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+}
+/* END - adpated and modified Code */
