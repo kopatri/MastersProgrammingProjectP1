@@ -163,7 +163,7 @@ let printDogCardsToHTML = function () {
         //console.log("DogId: " + dog[0].id);
         //console.log("Url: " + dog[0].url);
         dog_cards = dog_cards +
-            `<a><div class="flip-card m-2" >
+            `<div class="flip-card m-2">
             <div class="flip-card-inner ${dog.id}" id="card-${card_id}" onclick="card_clicked(this)">
                 <div class="front">
                     <img src="doggo.jpg">
@@ -172,7 +172,7 @@ let printDogCardsToHTML = function () {
                     <img src="${dog.url}">
                 </div>
             </div>
-        </div></a>`
+        </div>`
         card_id++;
     }
     document.getElementById("dog_cards").innerHTML = "";

@@ -4,22 +4,62 @@
     border-radius: 10px;
 }
 
-#breeds_checkbox{
+#current_selected_breeds{
     border-radius: 10px;
     padding-top: 10px;
     background: white;
-    border: 1px solid green;
+    border: 2px solid green;
 }
 
 .ctrtxt{
-    padding: 7px;
+    padding-top: 7px;
 }
 
-/*Style the sizing of the cards*/
 img{
     width:150px;
     height:150px;
 }
+
+hr{
+    height:3px;
+    background-color:gray
+}
+
+a{
+    padding-right: 3px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns: auto;
+    grid-template-rows: repeat(3, 1fr);
+    grid-auto-flow: column;
+}
+
+/*Styling of the checkboxes */
+.breeds_checkbox {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    line-height: 1;
+}
+
+/* Start - Handling the requested breeds visually */
+#breeds_difference {
+    color: red;
+}
+
+#breeds_error {
+    animation: flash 1s linear infinite;
+    color: red;
+}
+
+@keyframes flash {
+    50% {
+        opacity: 0;
+    }
+}
+/* End - Handling the requested breeds visually */
 
 /* Start - Card animation*/
 @keyframes flipOpen {
@@ -43,31 +83,7 @@ img{
 }
 /* End - Card animation*/
 
-/*Styling of the checkboxes */
-.breeds_checkbox {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-}
-
-/* Start - Handling the requested breeds visually */
-#breeds_difference {
-    color: red;
-}
-
-#breeds_error {
-    animation: flash 1s linear infinite;
-    color: red;
-}
-
-@keyframes flash {
-    50% {
-        opacity: 0;
-    }
-}
-/* End - Handling the requested breeds visually */
-
-/* The code below was taken from a post by w3schools at https://www.w3schools.com/howto/howto_css_flip_card.asp (last accessed 2021-02-18) */ 
+/* The code below was adpated and modified from a post by w3schools at https://www.w3schools.com/howto/howto_css_flip_card.asp (last accessed 2021-02-18) */ 
 /* BEGIN - adpated and modified Code */
 .flip-card {
     perspective: 1000px;
@@ -103,7 +119,7 @@ img{
 }
 /* END - adpated and modified Code */
 
-/* The code below was taken from a post by w3schools at https://www.w3schools.com/howto/howto_css_modals.asp(last accessed 2021-02-18) */ 
+/* The code below was adpated and modified from a post by w3schools at https://www.w3schools.com/howto/howto_css_modals.asp(last accessed 2021-02-18) */ 
 /* BEGIN - adpated and modified Code */
 .modal {
     display: none;
