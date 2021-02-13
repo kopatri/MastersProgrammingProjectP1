@@ -25,8 +25,8 @@ hr{
     background-color:gray
 }
 
-a{
-    padding-right: 3px;
+.dynamic-error{
+    padding-bottom: 5px;
 }
 
 /*Styling of the game cards*/
