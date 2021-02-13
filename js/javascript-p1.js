@@ -1,23 +1,22 @@
+//These arrays are used for storing and working with received data from the API
 let dog_arr = new Array(); //holds all data about the dogs from the API
 let splitted_breeds_arr = new Array(); //sorted array of breeds with 10 dog breed names per index
 let cur_open_cards_arr = new Array(); //array which holds current selected cards
 let cur_breed_selection_arr = new Array();//current selection of checked breed checkboxes
 
-//This Variables cannot be modified
+//These variables cannot be modified and are responsible for the game logic
 let cur_breeds_index = 0; //Default index value for splitted breeds arr
 let playset_pairs = 0; //Variable which holds playssets
 let tried_pairs = 0; //Varibale which counts how many pairs were selected
 let correct_selected_pairs = 0; //Variable which counts how many correct pairs were selected
 let countDown = 0 //Placeholder for the countdown
+let highscore = { 'easy': 'No game played!', normal: 'No game played!', 'hard': 'No game played!' }; //Object holding the highscore of the game
 
-//This variables can be modified, but please select integer > 0  
+//These variables are game parameters and can be modified, but please select integer > 0  
 let breed_pack_size = 10; //Varibale which shows how many different breews should be displayed at once to the user
 let easy = 4; //Variable that says how many pairs an easy game has
 let normal = 6; //Variable that says how many pairs an normal game has
 let hard = 9; //Variable that says how many pairs an hard game has
-
-//Object holding the highscore of the game
-let highscore = { 'easy': 'No game played!', normal: 'No game played!', 'hard': 'No game played!' };
 
 //Receive the breeds as fast as possible from the API
 document.addEventListener("DOMContentLoaded", function (event) {
