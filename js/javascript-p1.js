@@ -10,7 +10,7 @@ let tried_pairs = 0; //Varibale which counts how many pairs were selected
 let correct_selected_pairs = 0; //Variable which counts how many correct pairs were selected
 let countDown = 0 //Placeholder for the countdown
 
-//This variables can be modified, but please select integers > 0  
+//This variables can be modified, but please select integer > 0  
 let breed_pack_size = 10; //Varibale which shows how many different breews should be displayed at once to the user
 let easy = 4; //Variable that says how many pairs an easy game has
 let normal = 6; //Variable that says how many pairs an normal game has
@@ -101,9 +101,9 @@ let getDogs = async function getDogs(requested_dog_pairs, requested_breed_id) {
         for (let dog of received_dogs) {
             dog_arr.push(dog)
         }
-        // console.log("received_dogs.length: " + received_dogs.length);
-        // console.log("requested_dog_pairs: " + requested_dog_pairs);
-        // console.log("requested_breed_id: " + requested_breed_id);
+        //  console.log("received_dogs.length: " + received_dogs.length);
+        //  console.log("requested_dog_pairs: " + requested_dog_pairs);
+        //  console.log("requested_breed_id: " + requested_breed_id);
         canGameStart(received_dogs.length, requested_dog_pairs);
     }
     catch (error) {
