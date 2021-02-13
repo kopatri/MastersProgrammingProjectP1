@@ -10,14 +10,14 @@ let tried_pairs = 0; //Varibale which counts how many pairs were selected
 let correct_selected_pairs = 0; //Variable which counts how many correct pairs were selected
 let countDown = 0 //Placeholder for the countdown
 
-//This variables can be modified 
+//This variables can be modified, but please select integers > 0  
 let breed_pack_size = 10; //Varibale which shows how many different breews should be displayed at once to the user
 let easy = 4; //Variable that says how many pairs an easy game has
 let normal = 6; //Variable that says how many pairs an normal game has
-let hard = 9 //Variable that says how many pairs an hard game has
+let hard = 9; //Variable that says how many pairs an hard game has
 
 //Object holding the highscore of the game
-let highscore = { 'easy': "No game played!", 'normal': "No game played!", 'hard': "No game played!" };
+let highscore = { 'easy': 'No game played!', normal: 'No game played!', 'hard': 'No game played!' };
 
 //Receive the breeds as fast as possible from the API
 document.addEventListener("DOMContentLoaded", function (event) {
@@ -368,32 +368,35 @@ let saveHighScore = function () {
 
 //Get the highscore from the localstorage
 let getSavedHighscores = function () {
-    highscore = JSON.parse(localStorage.getItem('savedHighscores'));
-    if (highscore != null) {
-        document.getElementById("highscore_easy").innerHTML = "Highscore - Easy: " + highscore.easy + " ";
-        document.getElementById("highscore_normal").innerHTML = "Highscore - Normal: " + highscore.normal + " ";
-        document.getElementById("highscore_hard").innerHTML = "Highscore - Hard: " + highscore.hard + " ";
+    saved_highscore = JSON.parse(localStorage.getItem('savedHighscores'));
+    if (saved_highscore != null) {
+        document.getElementById("highscore_easy").innerHTML = "Highscore - Easy: " + saved_highscore.easy + " ";
+        document.getElementById("highscore_normal").innerHTML = "Highscore - Normal: " + saved_highscore.normal + " ";
+        document.getElementById("highscore_hard").innerHTML = "Highscore - Hard: " + saved_highscore.hard + " ";
+        highscore.easy = saved_highscore.easy;
+        saved_highscore.normal = saved_highscore.normal;
+        saved_highscore.hard = saved_highscore.hard;
     }
 }
 
 //Check if the user has beaten the current highscore
 let checkHighscore = function () {
     switch (playset_pairs) {
-        case 4:
+        case easy:
             if (highscore.easy == "No game played!" || highscore.easy > tried_pairs) {
                 highscore.easy = tried_pairs;
                 document.getElementById("highscore_easy").innerHTML = "Highscore - Easy: " + highscore.easy + " ";
                 return true;
             }
             break;
-        case 6:
+        case normal:
             if (highscore.normal == "No game played!" || highscore.normal > tried_pairs) {
                 highscore.normal = tried_pairs;
                 document.getElementById("highscore_normal").innerHTML = "Highscore - Normal: " + highscore.normal + " ";
                 return true;
             }
             break;
-        case 9:
+        case hard:
             if (highscore.hard == "No game played!" || highscore.hard > tried_pairs) {
                 highscore.hard = tried_pairs;
                 document.getElementById("highscore_hard").innerHTML = "Highscore - Hard: " + highscore.hard + " ";
