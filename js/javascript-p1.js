@@ -124,7 +124,7 @@ let canGameStart = async function (received_dogs_length, requested_dog_pairs) {
         document.getElementById("breeds_difference").innerHTML = "";
         duplicateDogCards();
         shuffleDogCards();
-        await printDogCardsToHTML();
+        printDogCardsToHTML();
         startCountDown();
     } //Specify how many more breeds are required to start a game
     else if (playset_pairs > dog_arr.length) {
@@ -154,7 +154,7 @@ let shuffleDogCards = function () {
     }
 }
 
-//Atach the receoived breeds as dogcards to the corresponding HTML
+//Atach the received breeds as dogcards to the corresponding HTML
 let printDogCardsToHTML = function () {
     let dog_cards = "";
     let card_id = 1;
@@ -472,7 +472,6 @@ let buildDogAPICall = function () {
 //Reset individual game properties
 let resetPriorEachGame = function () {
     resetCountdown();
-    countDown = 0;
     document.getElementById("dog_cards").innerHTML = "";
     correct_selected_pairs = 0;
     tried_pairs = 0;
