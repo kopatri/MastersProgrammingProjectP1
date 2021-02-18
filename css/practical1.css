@@ -1,3 +1,4 @@
+/* Start - styling game settings properties */
 #title_website{
     background: grey;
     color: white;
@@ -28,6 +29,7 @@ hr{
 .dynamic-error{
     padding-bottom: 5px;
 }
+/* End - styling game settings properties */
 
 /*Styling of the game cards*/
 .cards{
@@ -84,7 +86,7 @@ hr{
 }
 /* End - Card animation*/
 
-/* The code below was adpated and modified from a post by w3schools at https://www.w3schools.com/howto/howto_css_flip_card.asp (last accessed 2021-02-18) */ 
+/* The code below was adpated and modified from a post by w3schools at https://www.w3schools.com/howto/howto_css_flip_card.asp, (last accessed 2021-02-18) */ 
 /* BEGIN - adpated and modified Code */
 .flip-card {
     perspective: 1000px;
@@ -120,7 +122,7 @@ hr{
 }
 /* END - adpated and modified Code */
 
-/* The code below was adpated and modified from a post by w3schools at https://www.w3schools.com/howto/howto_css_modals.asp(last accessed 2021-02-18) */ 
+/* The code below was adpated and modified from a post by w3schools at https://www.w3schools.com/howto/howto_css_modals.asp, (last accessed 2021-02-18) */ 
 /* BEGIN - adpated and modified Code */
 .modal {
     display: none;

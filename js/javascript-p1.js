@@ -87,10 +87,10 @@ let getDogs = async function getDogs(requested_dog_pairs, requested_breed_id) {
     //console.log("Requested breed id: " + requested_breed_id);
     let query_string = "";
     if (requested_breed_id == undefined) {
-        query_string = `https://api.thedogapi.com/v1/images/search?limit=${requested_dog_pairs}&mime_types=jpg`;
+        query_string = `https://api.thedogapi.com/v1/images/search?limit=${requested_dog_pairs}&mime_types=jpg&size=thumb`;
     }
     else {
-        query_string = `https://api.thedogapi.com/v1/images/search?limit=${requested_dog_pairs}&mime_types=jpg&breed_id=${requested_breed_id}`;
+        query_string = `https://api.thedogapi.com/v1/images/search?limit=${requested_dog_pairs}&mime_types=jpg&size=thumb&breed_id=${requested_breed_id}`;
     }
     let received_dogs = new Array();
     try {
@@ -113,7 +113,7 @@ let getDogs = async function getDogs(requested_dog_pairs, requested_breed_id) {
 
 //Check if the game can start and dynamically print how much more breeds are required to start a game
 //If enough breeds are received the game can start, otherwise an error will be displayed with the needed amount of dogs
-let canGameStart = function (received_dogs_length, requested_dog_pairs) {
+let canGameStart = async function (received_dogs_length, requested_dog_pairs) {
     //Not enough dog cards received
     if (received_dogs_length < requested_dog_pairs) {
         document.getElementById("breeds_error").innerHTML = "The current selection of breeds does not provide enough playcards!"
@@ -124,7 +124,7 @@ let canGameStart = function (received_dogs_length, requested_dog_pairs) {
         document.getElementById("breeds_difference").innerHTML = "";
         duplicateDogCards();
         shuffleDogCards();
-        printDogCardsToHTML();
+        await printDogCardsToHTML();
         startCountDown();
     } //Specify how many more breeds are required to start a game
     else if (playset_pairs > dog_arr.length) {
@@ -143,7 +143,7 @@ let duplicateDogCards = function () {
     dog_arr = [...dog_arr, ...dog_arr];
 }
 
-//Own implementation of Fisher Yates shuffle adapted from https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm (last accessed 2019-01-12)
+//Own implementation of Fisher Yates shuffle adapted from https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm (last accessed 2021-02-18)
 let shuffleDogCards = function () {
     let a, b, i;
     for (i = dog_arr.length - 1; i > 0; i--) {
@@ -477,9 +477,10 @@ let resetPriorEachGame = function () {
     tried_pairs = 0;
     document.getElementById("tried_pairs").innerHTML = 0;
     dog_arr = [];
+    cur_open_cards_arr=[];
 }
 
-//Handling a complete reset of game
+//Handling a complete reset of the game
 let resetGame = function (alert_message) {
 
     resetPriorEachGame();
