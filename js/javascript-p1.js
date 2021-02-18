@@ -472,6 +472,7 @@ let buildDogAPICall = function () {
 //Reset individual game properties
 let resetPriorEachGame = function () {
     resetCountdown();
+    countDown = 0;
     document.getElementById("dog_cards").innerHTML = "";
     correct_selected_pairs = 0;
     tried_pairs = 0;
