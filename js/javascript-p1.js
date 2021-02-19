@@ -478,12 +478,14 @@ let resetPriorEachGame = function () {
     document.getElementById("tried_pairs").innerHTML = 0;
     dog_arr = [];
     cur_open_cards_arr=[];
+    document.getElementById("start_btn").disabled = true;
 }
 
 //Handling a complete reset of the game
 let resetGame = function (alert_message) {
 
     resetPriorEachGame();
+    document.getElementById("start_btn").disabled = false;
 
     //Properties linked to breed selection
     cur_breed_selection_arr = []
